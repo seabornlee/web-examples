@@ -101,6 +101,10 @@ export default function App() {
       openRequestModal();
       await ethereumRpc.testSignTypedDataV4(chainId, address);
     };
+    const onSignTypedDataGenosis = async (chainId: string, address: string) => {
+      openRequestModal();
+      await ethereumRpc.testSignTypedDataGenosis(chainId, address);
+    };
 
     return [
       { method: "eth_sendTransaction", callback: onSendTransaction },
@@ -109,6 +113,7 @@ export default function App() {
       { method: "eth_sign (standard)", callback: onEthSign },
       { method: "eth_signTypedData", callback: onSignTypedData },
       { method: "eth_signTypedData (v4)", callback: onSignTypedDataV4 },
+      { method: "eth_signTypedData (Genosis)", callback: onSignTypedDataGenosis },
     ];
   };
 
