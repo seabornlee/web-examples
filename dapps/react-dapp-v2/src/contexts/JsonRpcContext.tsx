@@ -41,7 +41,7 @@ interface IContext {
     testSignPersonalMessage: TRpcRequestCallback;
     testSignTypedData: TRpcRequestCallback;
     testSignTypedDataV4: TRpcRequestCallback;
-    testSignTypedDataGenosis: TRpcRequestCallback;
+    testSignTypedDataGnosis: TRpcRequestCallback;
   };
   cosmosRpc: {
     testSignDirect: TRpcRequestCallback;
@@ -327,8 +327,8 @@ export function JsonRpcContextProvider({ children }: { children: ReactNode | Rea
         result: signature,
       };
     }),
-    testSignTypedDataGenosis: _createJsonRpcRequestHandler(async (chainId: string, address: string) => {
-      const message = JSON.stringify(eip712.exampleGenosis);
+    testSignTypedDataGnosis: _createJsonRpcRequestHandler(async (chainId: string, address: string) => {
+      const message = JSON.stringify(eip712.exampleGnosis);
 
       // eth_signTypedData params
       const params = [address, message];
@@ -346,13 +346,13 @@ export function JsonRpcContextProvider({ children }: { children: ReactNode | Rea
       // Separate `EIP712Domain` type from remaining types to verify, otherwise `ethers.utils.verifyTypedData`
       // will throw due to "unused" `EIP712Domain` type.
       const { EIP712Domain, ...nonDomainTypes }: Record<string, TypedDataField[]> =
-        eip712.exampleGenosis.types;
+        eip712.exampleGnosis.types;
 
       const valid =
         utils.verifyTypedData(
-          eip712.exampleGenosis.domain,
+          eip712.exampleGnosis.domain,
           nonDomainTypes,
-          eip712.exampleGenosis.message,
+          eip712.exampleGnosis.message,
           signature,
         ) === address;
 

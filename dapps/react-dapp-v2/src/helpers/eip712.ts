@@ -131,7 +131,7 @@ const exampleV4 = {
   }
 };
 
-const exampleGenosis = {
+const exampleGnosis = {
   "types": {
     "EIP712Domain": [
       {
@@ -201,5 +201,5 @@ const exampleGenosis = {
 };
 
 export const eip712 = {
-  example, exampleV4, exampleGenosis
+  example, exampleV4, exampleGnosis
 };
