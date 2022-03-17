@@ -40,6 +40,7 @@ interface IContext {
     testEthSign: TRpcRequestCallback;
     testSignPersonalMessage: TRpcRequestCallback;
     testSignTypedData: TRpcRequestCallback;
+    testSignTypedDataV4: TRpcRequestCallback;
   };
   cosmosRpc: {
     testSignDirect: TRpcRequestCallback;
@@ -315,6 +316,42 @@ export function JsonRpcContextProvider({ children }: { children: ReactNode | Rea
           eip712.example.domain,
           nonDomainTypes,
           eip712.example.message,
+          signature,
+        ) === address;
+
+      return {
+        method: "eth_signTypedData",
+        address,
+        valid,
+        result: signature,
+      };
+    }),
+    testSignTypedDataV4: _createJsonRpcRequestHandler(async (chainId: string, address: string) => {
+      const message = JSON.stringify(eip712.exampleV4);
+
+      // eth_signTypedData params
+      const params = [address, message];
+
+      // send message
+      const signature = await client!.request({
+        topic: session!.topic,
+        chainId,
+        request: {
+          method: "eth_signTypedData",
+          params,
+        },
+      });
+
+      // Separate `EIP712Domain` type from remaining types to verify, otherwise `ethers.utils.verifyTypedData`
+      // will throw due to "unused" `EIP712Domain` type.
+      const { EIP712Domain, ...nonDomainTypes }: Record<string, TypedDataField[]> =
+        eip712.exampleV4.types;
+
+      const valid =
+        utils.verifyTypedData(
+          eip712.exampleV4.domain,
+          nonDomainTypes,
+          eip712.exampleV4.message,
           signature,
         ) === address;
 
