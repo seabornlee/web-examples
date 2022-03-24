@@ -184,6 +184,7 @@ export default function App() {
         <h6>
           <span>{`Using v${version || "2.0.0-beta"}`}</span>
         </h6>
+        <a href="https://aw.app/openurl?url=http%3A%2F%2Fapp.uniswap.org%3Ftest%3Dvalue1" target="_blank">Deep Link</a>
         <SButtonContainer>
           <h6>Select chains:</h6>
           <SToggleContainer>
